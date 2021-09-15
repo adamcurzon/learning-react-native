@@ -6,106 +6,70 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
+  Button,
+  TextInput,
+  Pressable,
+  Image,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import LoginEmailInput from './src/components/LoginEmailInput.js';
+import LoginPasswordInput from './src/components/LoginPasswordInput.js';
+import LoginButton from './src/components/LoginButton.js';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+global.loginData = {email: 'a@a.a', password: 'p123'};
 
 const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const password_ref = useRef();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={styles.backgroundStyle}>
+      <Image
+        style={styles.logo}
+        source={require('./src/assets/logo-square.png')}
+      />
+
+      <Text style={styles.inputLabel}>EMAIL</Text>
+      <LoginEmailInput
+        onSubmitEditing={() => {
+          password_ref.current.focus();
+        }}></LoginEmailInput>
+
+      <Text style={styles.inputLabel}>PASSWORD</Text>
+      <LoginPasswordInput password_ref={password_ref}></LoginPasswordInput>
+
+      <LoginButton />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  backgroundStyle: {
+    backgroundColor: '#F3F4F6',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
+  inputLabel: {
+    width: 300,
+    color: '#3A4454',
     fontWeight: '700',
+  },
+  button: {
+    display: 'flex',
+    width: 300,
+    height: 60,
+    borderRadius: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
   },
 });
 
