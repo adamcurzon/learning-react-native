@@ -77,6 +77,7 @@ const LoginEmailInput = props => {
         }}
         value={value}
         onSubmitEditing={props.onSubmitEditing}
+        autoCompleteType="off"
         style={getStyle()}></TextInput>
     </View>
   );

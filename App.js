@@ -23,7 +23,7 @@ import LoginEmailInput from './src/components/LoginEmailInput.js';
 import LoginPasswordInput from './src/components/LoginPasswordInput.js';
 import LoginButton from './src/components/LoginButton.js';
 
-global.loginData = {email: 'a@a.a', password: 'p123'};
+global.loginData = {email: '', password: ''};
 
 const App: () => Node = () => {
   const password_ref = useRef();

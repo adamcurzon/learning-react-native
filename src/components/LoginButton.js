@@ -52,6 +52,7 @@ const LoginButton = props => {
       })
         .then(response => response.json())
         .then(json => {
+          alert('API - Login Attempt');
           console.log(json);
         })
         .finally(() => {

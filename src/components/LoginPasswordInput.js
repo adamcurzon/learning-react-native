@@ -77,6 +77,7 @@ const LoginPasswordInput = props => {
         }}
         ref={props.password_ref}
         value={value}
+        autoCompleteType="off"
         style={getStyle()}></TextInput>
     </View>
   );
