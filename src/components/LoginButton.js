@@ -42,7 +42,6 @@ const LoginButton = props => {
     if (!press) {
       setPress(true);
       Keyboard.dismiss();
-
       fetch('https://adamcurzon.co.uk/training-app', {
         method: 'POST',
         credentials: 'same-origin',

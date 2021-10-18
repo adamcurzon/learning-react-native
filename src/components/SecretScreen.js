@@ -1,11 +1,10 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, StyleSheet, Text, Image, Pressable} from 'react-native';
 import LoginLogoutButton from './LoginLogoutButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, StackActions} from '@react-navigation/native';
 
-
-const HomeScreen = props => {
+const SecretScreen = props => {
   const navigation = useNavigation();
 
   // Store user data in state
@@ -26,6 +25,25 @@ const HomeScreen = props => {
     setUser(JSON.parse(userData));
   }
   getUserData();
+
+  const[secretText, setSecretText] = useState("");
+  useEffect(() => {
+    fetch('https://adamcurzon.co.uk/training-app', {
+      method: 'POST',
+      credentials: 'same-origin',
+      mode: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        class: 'user',
+        method: 'secret',
+        params: '',
+      },
+    })
+    .then(response => response.json())
+    .then(json => {
+      setSecretText(json.message);
+    });
+  }, []);
 
   const styles = StyleSheet.create({
     backgroundStyle: {
@@ -54,6 +72,7 @@ const HomeScreen = props => {
       fontWeight: '700',
     },
   });
+
   return (
     <SafeAreaView style={styles.backgroundStyle}>
       <Image
@@ -61,22 +80,19 @@ const HomeScreen = props => {
         source={require('../assets/logo-square.png')}
       />
     
-      <Text>Home{'\n'}</Text>
-      <Text>Firstname: {user.firstname}{'\n'}</Text>
-      <Text>Lastname: {user.lastname}{'\n'}</Text>
-      <Text>Login Date: {user.login_date}{'\n'}</Text>
+    <Text>{secretText}</Text>
 
-      <LoginLogoutButton />
-
-      <Pressable
-        onPress={() => {navigation.navigate('secretscreen')}}
+    <Pressable
+        onPress={() => {navigation.navigate('homescreen')}}
         style={styles.secretButton}>
         <Text style={styles.secretButtonText}>
-          Secret Screen
+          Back
         </Text>
       </Pressable>
+
+
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default SecretScreen;
