@@ -55,6 +55,10 @@ const LoginPasswordInput = props => {
     }
   }
 
+  function clearValue(){
+    setValue("");
+  }
+
   return (
     <View>
       <TextInput
@@ -78,6 +82,7 @@ const LoginPasswordInput = props => {
         ref={props.password_ref}
         value={value}
         autoCompleteType="off"
+        autoCorrect={false}
         style={getStyle()}></TextInput>
     </View>
   );

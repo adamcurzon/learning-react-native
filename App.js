@@ -6,71 +6,42 @@
  * @flow strict-local
  */
 
-import React, {useState, useRef} from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  Pressable,
-  Image,
-} from 'react-native';
+import * as React from 'react';
+import {useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { useNavigation, StackActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoginScreen from './src/components/LoginScreen.js';
+import HomeScreen from './src/components/HomeScreen.js';
 
-import LoginEmailInput from './src/components/LoginEmailInput.js';
-import LoginPasswordInput from './src/components/LoginPasswordInput.js';
-import LoginButton from './src/components/LoginButton.js';
+const Stack = createNativeStackNavigator();
 
-global.loginData = {email: '', password: ''};
+global.user = false;
 
-const App: () => Node = () => {
-  const password_ref = useRef();
+const MyStack = () => {
+  const[user, setUser] = useState("");
+
+  // Check if user is already logged in
+  AsyncStorage.getItem('user', (err, result) => {
+    result = JSON.parse(result);
+    global.user = result;
+  });
 
   return (
-    <SafeAreaView style={styles.backgroundStyle}>
-      <Image
-        style={styles.logo}
-        source={require('./src/assets/logo-square.png')}
-      />
-
-      <Text style={styles.inputLabel}>EMAIL</Text>
-      <LoginEmailInput
-        onSubmitEditing={() => {
-          password_ref.current.focus();
-        }}></LoginEmailInput>
-
-      <Text style={styles.inputLabel}>PASSWORD</Text>
-      <LoginPasswordInput password_ref={password_ref}></LoginPasswordInput>
-
-      <LoginButton />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+          {global.user ? (
+            <Stack.Screen name="homescreen" component={HomeScreen} user={global.user} />
+          ) : (
+            <Stack.Screen name="loginscreen" component={LoginScreen} />
+          )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  backgroundStyle: {
-    backgroundColor: '#F3F4F6',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputLabel: {
-    width: 300,
-    color: '#3A4454',
-    fontWeight: '700',
-  },
-  button: {
-    display: 'flex',
-    width: 300,
-    height: 60,
-    borderRadius: 10,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-  },
-});
-
-export default App;
+export default MyStack;

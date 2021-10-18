@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {TextInput, StyleSheet, Pressable, Text, Keyboard} from 'react-native';
-import { useNavigation, StackActions} from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { isPropertyAssignment } from 'typescript';
 
-
-const LoginButton = props => {
+const LoginLogoutButton = props => {
   const [press, setPress] = useState(false);
   const navigation = useNavigation();
 
@@ -50,27 +48,18 @@ const LoginButton = props => {
         headers: {
           'Content-Type': 'application/json',
           class: 'user',
-          method: 'login',
-          params: JSON.stringify(global.loginData),
+          method: 'logout',
         },
       })
         .then(response => response.json())
         .then(json => {
           console.log(json);
-          if(!json.error){
-            global.loginData = {};
-            json.user = JSON.parse(json.user);
-            global.user = json.user;
-            AsyncStorage.setItem("user", JSON.stringify(json.user));
-            // navigation.dispatch(
-            //   StackActions.replace('homescreen', {})
-            // );
-          } else {
-            props.errorMsgHandler(json.message);
-            setTimeout(() => {
-              setPress(false);
-            }, 200);
-          }
+          global.loginData = {};
+          AsyncStorage.removeItem("user");
+          setPress(false);
+          navigation.dispatch(
+            StackActions.replace('loginscreen', {})
+          );
         })
         .catch(error => {
           console.log('Api call error');
@@ -85,10 +74,10 @@ const LoginButton = props => {
       onPress={onPress}
       style={press ? styles.pressableClick : styles.pressable}>
       <Text style={press ? styles.pressableTextClick : styles.pressableText}>
-        LOGIN
+        LOGOUT
       </Text>
     </Pressable>
   );
 };
 
-export default LoginButton;
+export default LoginLogoutButton;
