@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import * as React from 'react';
 import {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -17,28 +9,26 @@ import HomeScreen from './src/components/HomeScreen.js';
 
 const Stack = createNativeStackNavigator();
 
-global.user = false;
-
 const MyStack = () => {
-  const[user, setUser] = useState("");
+  let initialRoute = "loginscreen";
 
-  // Check if user is already logged in
-  AsyncStorage.getItem('user', (err, result) => {
-    result = JSON.parse(result);
-    global.user = result;
+  // Check if user is already logged in and set route to home page
+  AsyncStorage.getItem('user').then(result => {
+    var result_json = JSON.parse(result);
+    if(result_json != null){
+      initialRoute = "homescreen";
+    }
   });
 
   return (
-    <NavigationContainer>
+    <NavigationContainer onNavigationStateChange={null}>
       <Stack.Navigator
+        initialRoute={initialRoute}
         screenOptions={{
           headerShown: false,
         }}>
-          {global.user ? (
-            <Stack.Screen name="homescreen" component={HomeScreen} user={global.user} />
-          ) : (
+            <Stack.Screen name="homescreen" component={HomeScreen} />
             <Stack.Screen name="loginscreen" component={LoginScreen} />
-          )}
       </Stack.Navigator>
     </NavigationContainer>
   );

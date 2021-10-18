@@ -56,15 +56,17 @@ const LoginButton = props => {
       })
         .then(response => response.json())
         .then(json => {
-          console.log(json);
           if(!json.error){
+            // Clear the login input data
             global.loginData = {};
+            // Parse the user data as json
             json.user = JSON.parse(json.user);
-            global.user = json.user;
+            // Add the user data to persistent storage
             AsyncStorage.setItem("user", JSON.stringify(json.user));
-            // navigation.dispatch(
-            //   StackActions.replace('homescreen', {})
-            // );
+            // Change the page to home screen
+            navigation.dispatch(
+              StackActions.replace('homescreen', {})
+            );
           } else {
             props.errorMsgHandler(json.message);
             setTimeout(() => {

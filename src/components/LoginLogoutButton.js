@@ -53,10 +53,11 @@ const LoginLogoutButton = props => {
       })
         .then(response => response.json())
         .then(json => {
-          console.log(json);
+          // Clear the login form data
           global.loginData = {};
+          // Remove the user from persistant storage
           AsyncStorage.removeItem("user");
-          setPress(false);
+          // Navigate to login screen
           navigation.dispatch(
             StackActions.replace('loginscreen', {})
           );
