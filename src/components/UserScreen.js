@@ -1,12 +1,12 @@
-import React, {useState, useRef} from 'react';
-import {SafeAreaView, StyleSheet, Text, Image, Pressable} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {SafeAreaView, StyleSheet, Text, Image, View} from 'react-native';
 import LoginLogoutButton from './LoginLogoutButton';
 import BottomNavigation from './BottomNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, StackActions} from '@react-navigation/native';
 import styles from '../css/styles'
 
-const HomeScreen = props => {
+const UserScreen = props => {
   const navigation = useNavigation();
 
   // Store user data in state
@@ -34,11 +34,18 @@ const HomeScreen = props => {
         style={styles.logo}
         source={require('../assets/logo-square.png')}
       />
-    
 
-      <BottomNavigation activeScreen="homescreen" />
+    <View>
+      <Text>Firstname: {user.firstname}{'\n'}</Text>
+      <Text>Lastname: {user.lastname}{'\n'}</Text>
+      <Text>Email: {user.email}{'\n'}</Text>
+      <Text>Login Date: {user.login_date}{'\n'}</Text>
+    </View>
+      <LoginLogoutButton />
+
+      <BottomNavigation activeScreen="userscreen" />
     </SafeAreaView>
   );
 };
 
-export default HomeScreen;
+export default UserScreen;

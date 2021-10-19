@@ -16,6 +16,8 @@ const LoginLogoutButton = props => {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 10,
+      position: 'absolute',
+      bottom: 100,
     },
     pressableTextClick: {
       color: '#3A4454',
@@ -29,6 +31,8 @@ const LoginLogoutButton = props => {
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 10,
+      position: 'absolute',
+      bottom: 100,
     },
     pressableText: {
       color: '#fff',

@@ -6,22 +6,6 @@ import LoginButton from './LoginButton';
 
 global.loginData = {email: '', password: ''};
 
-  fetch('https://adamcurzon.co.uk/training-app', {
-    method: 'POST',
-    credentials: 'same-origin',
-    mode: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      class: 'user',
-      method: 'secret',
-      params: '',
-    },
-  })
-  .then(response => response.json())
-  .then(json => {
-    console.log(json.message);
-  });
-
 const LoginScreen = props => {
   const password_ref = useRef();
   const [errorMsg, setErrorMsg] = useState(false);
